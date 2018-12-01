@@ -6,6 +6,9 @@ public class Enemy : MonoBehaviour
     public float health = 100f;
     public float moveSpeed = 3f;
     public int goldDrop = 10;
+    public float timeEnemyStaysFrozenInSeconds = 2f;
+    public bool frozen;
+    private float freezeTimer;
 
     public int pathIndex = 0;
 
@@ -49,6 +52,23 @@ public class Enemy : MonoBehaviour
         }
     }
 
+    public void Freeze()
+    {
+        if (!frozen)
+        {
+            //2
+            frozen = true;
+            moveSpeed /= 2;
+        }
+    }
+    //3
+    void Defrost()
+    {
+        freezeTimer = 0f;
+        frozen = false;
+        moveSpeed *= 2;
+    }
+
     void Update()
     {
         // Update movement
@@ -59,6 +79,16 @@ public class Enemy : MonoBehaviour
         else
         { // call on last waypoint
             OnGotToLastWayPoint();
+        }
+        if (frozen)
+        {
+            //2
+            freezeTimer += Time.deltaTime;
+            //3
+            if (freezeTimer >= timeEnemyStaysFrozenInSeconds)
+            {
+                Defrost();
+            }
         }
     }
     private void UpdateMovement()

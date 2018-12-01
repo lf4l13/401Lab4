@@ -13,10 +13,14 @@ public class UIManager : MonoBehaviour {
     public GameObject winGameWindow;
     public GameObject loseGameWindow;
     public GameObject blackBackground;
+    public GameObject centerWindow;
+    public GameObject damageCanvas;
 
     public Text txtGold;
     public Text txtWave;
     public Text txtEscapedEnemies;
+    public Transform enemyHealthBars;
+    public GameObject enemyHealthBarPrefab;
 
     void Awake()
     {
@@ -64,5 +68,46 @@ public class UIManager : MonoBehaviour {
         loseGameWindow.SetActive(true);
     }
 
+    public void CreateHealthBarForEnemy(Enemy enemy)
+    {
+        
+        GameObject healthBar = Instantiate(enemyHealthBarPrefab);
+        
+        healthBar.transform.SetParent(enemyHealthBars, false);
+        
+        healthBar.GetComponent<EnemyHealthBar>().enemy = enemy;
+    }
 
+    public void ShowCenterWindow(string text)
+    {
+        centerWindow.transform.FindChild("TxtWave").GetComponent<Text>().text = text;
+        StartCoroutine(EnableAndDisableCenterWindow());
+    }
+    
+    private IEnumerator EnableAndDisableCenterWindow()
+    {
+        for (int i = 0; i < 3; i++)
+        {
+            yield return new WaitForSeconds(.4f);
+            centerWindow.SetActive(true);
+            yield return new WaitForSeconds(.4f);
+            centerWindow.SetActive(false);
+        }
+    }
+
+    public void ShowDamage()
+    {
+        StartCoroutine(DoDamageAnimation());
+    }
+    
+    private IEnumerator DoDamageAnimation()
+    {
+        for (int i = 0; i < 3; i++)
+        {
+            yield return new WaitForSeconds(.1f);
+            damageCanvas.SetActive(true);
+            yield return new WaitForSeconds(.1f);
+            damageCanvas.SetActive(false);
+        }
+    }
 }

@@ -17,8 +17,10 @@ public class EnemyManager : MonoBehaviour {
     public void RegisterEnemy(Enemy enemy)
     {
         Enemies.Add(enemy);
+        UIManager.Instance.CreateHealthBarForEnemy(enemy);
+
     }
-    
+
     public void UnRegister(Enemy enemy)
     {
         Enemies.Remove(enemy);
