@@ -40,4 +40,14 @@ public static class UtilityMethods
         UIManager.vrUiScaleDivider, distance /
         UIManager.vrUiScaleDivider, 1f);
     }
+    private static void ScaleRectTransformBasedOnDistanceFromCamera(RectTransform rectTransform)
+    {
+        
+        float distance = Vector3.Distance(Camera.main.transform.
+        position, rectTransform.position);
+        
+        rectTransform.localScale = new Vector3(distance /
+        UIManager.vrUiScaleDivider, distance /
+        UIManager.vrUiScaleDivider, 1f);
+    }
 }

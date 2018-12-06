@@ -61,17 +61,28 @@ public class Enemy : MonoBehaviour
         }
     }
 
+<<<<<<< HEAD
     // this is used to ensure the ice tower works on the enemies 
+=======
+>>>>>>> 4dd3aa56b99b082515fb621cd00c4b2dd96ddfff
     public void Freeze()
     {
         if (!frozen)
         {
+<<<<<<< HEAD
             // checks if the enemy is frozen if so slow down speed
+=======
+            //2
+>>>>>>> 4dd3aa56b99b082515fb621cd00c4b2dd96ddfff
             frozen = true;
             moveSpeed /= 2;
         }
     }
+<<<<<<< HEAD
     // checks if the enemy was previously frozen then when the freeze timer wears off the enemies speed increases back to normal
+=======
+    //3
+>>>>>>> 4dd3aa56b99b082515fb621cd00c4b2dd96ddfff
     void Defrost()
     {
         freezeTimer = 0f;
@@ -92,9 +103,15 @@ public class Enemy : MonoBehaviour
         }
         if (frozen)
         {
+<<<<<<< HEAD
             
             freezeTimer += Time.deltaTime;
             // checks if the enemy was previously frozen
+=======
+            //2
+            freezeTimer += Time.deltaTime;
+            //3
+>>>>>>> 4dd3aa56b99b082515fb621cd00c4b2dd96ddfff
             if (freezeTimer >= timeEnemyStaysFrozenInSeconds)
             {
                 Defrost();

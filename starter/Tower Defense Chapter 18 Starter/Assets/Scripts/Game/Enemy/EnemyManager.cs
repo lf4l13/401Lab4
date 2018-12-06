@@ -23,7 +23,10 @@ public class EnemyManager : MonoBehaviour {
 
     }
 
+<<<<<<< HEAD
     // removes unregistered enemy
+=======
+>>>>>>> 4dd3aa56b99b082515fb621cd00c4b2dd96ddfff
     public void UnRegister(Enemy enemy)
     {
         Enemies.Remove(enemy);
