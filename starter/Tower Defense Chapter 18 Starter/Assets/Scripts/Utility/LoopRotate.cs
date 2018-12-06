@@ -5,15 +5,11 @@ using UnityEngine;
 public class LoopRotate : MonoBehaviour {
 
     public Vector3 rotation;
-
-    // Use this for initialization
-    void Start () {
-		
-	}
-	
+    	
 	// Update is called once per frame
 	void Update ()
     {
+        // makes object rotate every frame 
         transform.Rotate(rotation * Time.deltaTime);
     }
 }

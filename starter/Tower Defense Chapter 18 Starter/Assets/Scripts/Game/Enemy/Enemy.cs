@@ -2,24 +2,34 @@
 
 public class Enemy : MonoBehaviour
 {
+    // variables for enemies such as their health, speed, gold drop and the affect the ice tower has on them
     public float maxHealth = 100f;
     public float health = 100f;
     public float moveSpeed = 3f;
     public int goldDrop = 10;
+    public float timeEnemyStaysFrozenInSeconds = 2f;
+    public bool frozen;
+    private float freezeTimer;
 
+    // beginning of the path 
     public int pathIndex = 0;
 
+    // waypoints to follow
     private int wayPointIndex = 0;
 
+    // registers enemy 
     void Start()
     {
         EnemyManager.Instance.RegisterEnemy(this);
     }
+
+    // ensures they despawn when reaching the last waypoint
     void OnGotToLastWayPoint()
     {
         Die();
     }
 
+    // allows the enemies to take damage 
     public void TakeDamage(float amountOfDamage)
     {
         health -= amountOfDamage;
@@ -31,11 +41,13 @@ public class Enemy : MonoBehaviour
         }
     }
 
+    // makes sure the enemies drop gold after dying
     void DropGold()
     {
         GameManager.Instance.gold += goldDrop;
     }
 
+    // destroys enemies when killed by tower and unregisters them 
     void Die()
     {
         if (gameObject != null)
@@ -49,6 +61,24 @@ public class Enemy : MonoBehaviour
         }
     }
 
+    // this is used to ensure the ice tower works on the enemies 
+    public void Freeze()
+    {
+        if (!frozen)
+        {
+            // checks if the enemy is frozen if so slow down speed
+            frozen = true;
+            moveSpeed /= 2;
+        }
+    }
+    // checks if the enemy was previously frozen then when the freeze timer wears off the enemies speed increases back to normal
+    void Defrost()
+    {
+        freezeTimer = 0f;
+        frozen = false;
+        moveSpeed *= 2;
+    }
+
     void Update()
     {
         // Update movement
@@ -59,6 +89,16 @@ public class Enemy : MonoBehaviour
         else
         { // call on last waypoint
             OnGotToLastWayPoint();
+        }
+        if (frozen)
+        {
+            
+            freezeTimer += Time.deltaTime;
+            // checks if the enemy was previously frozen
+            if (freezeTimer >= timeEnemyStaysFrozenInSeconds)
+            {
+                Defrost();
+            }
         }
     }
     private void UpdateMovement()

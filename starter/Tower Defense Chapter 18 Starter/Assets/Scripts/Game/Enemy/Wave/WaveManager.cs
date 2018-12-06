@@ -17,11 +17,13 @@ public class WaveManager : MonoBehaviour
     
     private List<EnemyWave> activatedWaves = new List<EnemyWave>();
     
+    // sets instance 
     void Awake()
     {
         Instance = this;
     }
     
+    // searches for the waves then updates as needed for next wave 
     void Update()
     {
         elapsedTime += Time.deltaTime;
@@ -43,7 +45,8 @@ public class WaveManager : MonoBehaviour
                 activatedWaves.Add(enemyWave);
                 spawnCounter = 0f;
                 GameManager.Instance.waveNumber++;
-    
+                UIManager.Instance.ShowCenterWindow("Wave " + GameManager.Instance.waveNumber);
+
                 break;
             }
         }
@@ -56,10 +59,12 @@ public class WaveManager : MonoBehaviour
         {
             spawnCounter += Time.deltaTime;
             
+            // when wave is over
             if (spawnCounter >= activeWave.timeBetweenSpawnsInSeconds)
             {
                 spawnCounter = 0f;
 
+                // if wave is not over
                 if (activeWave.listOfEnemies.Count != 0)
                 {
                    

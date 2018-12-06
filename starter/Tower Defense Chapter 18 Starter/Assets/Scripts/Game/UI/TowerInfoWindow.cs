@@ -5,6 +5,7 @@ using UnityEngine.UI;
 
 public class TowerInfoWindow : MonoBehaviour {
 
+    // reference to upgradable tower
     public Tower tower;
     
     public Text txtInfo;
@@ -14,15 +15,19 @@ public class TowerInfoWindow : MonoBehaviour {
   
     private GameObject btnUpgrade;
 
+    // Finds upgrade button
     void Awake()
     {
         btnUpgrade = txtUpgradeCost.transform.parent.gameObject;
     }
 
+    // call update info when window opens
     void OnEnable()
     {
         UpdateInfo();
     }
+
+    // Calculate the price to upgrade the tower. Set the info text to reflect the tower’s level. If the tower level is less than three, show the upgrade button. If not, hide it.
     private void UpdateInfo()
     {
         // Calculate new price for upgrade
@@ -44,6 +49,7 @@ public class TowerInfoWindow : MonoBehaviour {
    
     public void UpgradeTower()
     {
+        // checks if they have enough gold to upgrade tower 
         if (GameManager.Instance.gold >= upgradePrice)
         {
             GameManager.Instance.gold -= upgradePrice;

@@ -2,14 +2,17 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class Stone : Followingprojectile {
-
-	public float damage;
-
-protected override void OnHitEnemy()
+public class Stone : Followingprojectile
 {
- 
- enemyToFollow.TakeDamage(damage);
- Destroy(gameObject);
-}
+
+    // The amount of damage that gets inflicted to the enemy on impact
+    public float damage;
+
+    // Override Followingprojectile’s OnHitEnemy() method
+    protected override void OnHitEnemy()
+    {
+        // deal damage to enemy and destroy projectile
+        enemyToFollow.TakeDamage(damage);
+        Destroy(gameObject);
+    }
 }

@@ -9,6 +9,7 @@ public class AutoScaler : MonoBehaviour {
     // Update is called once per frame
     void Update ()
     {
+        // this does the scalling 
         transform.localScale += (new Vector3(scaleSpeed, scaleSpeed, scaleSpeed) * Time.deltaTime);
     }
 }

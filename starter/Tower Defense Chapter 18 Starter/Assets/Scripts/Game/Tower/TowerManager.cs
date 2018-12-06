@@ -11,21 +11,24 @@ public struct TowerCost
     public int Cost;
 }
 
-public class TowerManager : MonoBehaviour {
+public class TowerManager : MonoBehaviour
+{
 
+    // singleton static ref to this script is stored in Instance
     public static TowerManager Instance;
-    //2
+    // reference to the tower prefabs for spawning multiple towers 
     public GameObject stoneTowerPrefab;
     public GameObject fireTowerPrefab;
     public GameObject iceTowerPrefab;
-    //3
+    // stores the tower prices
     public List<TowerCost> TowerCosts = new List<TowerCost>();
-    //4
+    // sets instance to this script
     void Awake()
     {
         Instance = this;
     }
-    //5
+    // allows the tower slot and a type of tower as parameters & create a new copy of the certian tower at the certian slot selected. 
+    // It also then disables the tower slot so only one tower can be there
     public void CreateNewTower(GameObject slotToFill, Tower.TowerType towerType)
     {
         switch (towerType)
@@ -47,7 +50,7 @@ public class TowerManager : MonoBehaviour {
                 break;
         }
     }
-    //6
+    // This is a LINQ utility method to get the price of each certian tower type
     public int GetTowerPrice(Tower.TowerType towerType)
     {
         return (from towerCost in TowerCosts

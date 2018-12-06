@@ -22,25 +22,30 @@ public class Tower : MonoBehaviour {
     
     private float attackCounter;
 
+    // enum for the stone, fire and ice tower types 
     public enum TowerType
     {
         Stone, Fire, Ice
     }
 
+    // alllows the tower to smoothly look at it's target 
     private void SmoothlyLookAtTarget(Vector3 target)
     {
         towerPieceToAim.localRotation = UtilityMethods.
         SmoothlyLook(towerPieceToAim, target);
     }
+
+    // plays the shoot sound when tower fires 
     protected virtual void AttackEnemy()
     {
         GetComponent<AudioSource>().PlayOneShot(shootSound, .15f);
     }
 
+    // gets enemies in aggro range
     public List<Enemy> GetEnemiesInAggroRange()
     {
         List<Enemy> enemiesInRange = new List<Enemy>();
-        //2
+        // adds the ene,ies that are within range to the enemiesInRange list 
         foreach (Enemy enemy in EnemyManager.Instance.Enemies)
         {
             if (Vector3.Distance(transform.position, enemy.transform.position)
@@ -49,15 +54,15 @@ public class Tower : MonoBehaviour {
                 enemiesInRange.Add(enemy);
             }
         }
-        //3
+        // Returns to the list 
         return enemiesInRange;
     }
-    //4
+    // detects the enemy closest to the tower
     public Enemy GetNearestEnemyInRange()
     {
         Enemy nearestEnemy = null;
         float smallestDistance = float.PositiveInfinity;
-        //5
+        // when the whole enemy list is iterated the nearestenemy will be the closest one
         foreach (Enemy enemy in GetEnemiesInAggroRange())
         {
             if (Vector3.Distance(transform.position, enemy.transform.position)
@@ -68,24 +73,24 @@ public class Tower : MonoBehaviour {
                 nearestEnemy = enemy;
             }
         }
-        //6
+        // Return the nearest enemy
         return nearestEnemy;
     }
 
     public virtual void Update()
     {
-        //1
+        // Decrement the attackCounter.
         attackCounter -= Time.deltaTime;
-        //2
+        // checks if no enemy is currently targeted
         if (targetEnemy == null)
         {
-            //3
+            // If there’s a Transform to rotate, look at a neutral position. This is the tower’s idle state
             if (towerPieceToAim)
             {
                 SmoothlyLookAtTarget(towerPieceToAim.transform.position -
                 new Vector3(0, 0, 1));
             }
-            //4
+            // finds the new target enemy
             if (GetNearestEnemyInRange() != null
             && Vector3.Distance(transform.position,
             GetNearestEnemyInRange().transform.position)
@@ -95,13 +100,13 @@ public class Tower : MonoBehaviour {
             }
         }
         else
-        { // 5
-          //6
+        {
+            // checks if there is a target enemy assigned. If so, look at the target enemy
             if (towerPieceToAim)
             {
                 SmoothlyLookAtTarget(targetEnemy.transform.position);
             }
-            //7
+            // calls attack enemy when equal to or below 0 attackCounter and reset counter
             if (attackCounter <= 0f)
             {
                 // Attack
@@ -109,7 +114,7 @@ public class Tower : MonoBehaviour {
                 // Reset attack counter
                 attackCounter = timeBetweenAttacksInSeconds;
             }
-            //8
+            // if enemy moves out of aggro range set targetEnemy to nothing.
             if (Vector3.Distance(transform.position,
             targetEnemy.transform.position) > aggroRadius)
             {
@@ -127,6 +132,7 @@ public class Tower : MonoBehaviour {
         aggroRadius *= 1.20f;
     }
 
+    // shows the tower info for upgrading towers 
     public void ShowTowerInfo()
     {
         UIManager.Instance.ShowTowerInfoWindow(this);
